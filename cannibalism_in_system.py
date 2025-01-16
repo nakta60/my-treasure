@@ -11,8 +11,8 @@ def system(t, vars):
     d_x = 0.1
     d_y = 1
     d_z = 0.09
-    Q_x = 0.2
-    Q_y = 0.8
+    Q_x = 1
+    Q_y = 1
     f_y = 0.01
     S = 0.0005
     g_x = 2
@@ -21,7 +21,7 @@ def system(t, vars):
     r_p = 1
     r_e = 1
     n_z = 6
-    c_y = 0.7
+    c_y = 0.2
 
 
     # 값 제한 (오버플로우 방지)
@@ -76,7 +76,7 @@ lines2, labels2 = [p2], ['Parasite']
 ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=3)
 
 # 제목
-fig.suptitle('Host-Parasite Dynamics with Parasite on Secondary Axis')
+fig.suptitle('Cannibalism Probability = 0.2')
 
 plt.tight_layout()
 plt.show()

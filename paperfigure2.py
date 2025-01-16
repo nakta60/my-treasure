@@ -11,8 +11,8 @@ def system(t, vars):
     d_x = 0.1      # Death rate of prey
     d_y = 1      # Death rate of predator
     d_z = 0.09      # Death rate of parasite
-    Q_x = 0.2      # Fraction of infected prey contributing to parasite growth
-    Q_y = 0.8      # Fraction of infected predator reproduction
+    Q_x = 1      # Fraction of infected prey contributing to parasite growth
+    Q_y = 1      # Fraction of infected predator reproduction
     f_y = 0.01      # Predation rate
     S = 0.0005        # Parasite growth rate
     g_x = 2      # Growth rate of uninfected prey
@@ -35,7 +35,7 @@ def system(t, vars):
     return [dx_I, dx_U, dy_I, dy_U, dz]
 
 # 초기값 설정
-initial_conditions = [50, 50, 10, 10, 10]  # 초기 상태: [x_I, x_U, y_I, y_U, z]
+initial_conditions = [0, 800, 0, 100, 1000]  # 초기 상태: [x_I, x_U, y_I, y_U, z]
 t_span = (0, 150)  # 시간 범위
 time_points = np.linspace(t_span[0], t_span[1], 1000)  # 시간 샘플링
 
@@ -62,7 +62,7 @@ ax2.set_ylabel('Parasite Population Size', color='magenta')
 ax2.tick_params(axis='y', labelcolor='magenta')
 
 # 제목 추가
-fig.suptitle('Host-Parasite Dynamics with Parasite on Secondary Axis')
+fig.suptitle('Reference Figure')
 
 # 범례 추가 (오른쪽 축)
 lines, labels = ax1.get_legend_handles_labels()

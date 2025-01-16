@@ -57,9 +57,9 @@ for c_y in c_y_values:
         plt.plot(c_y_array, steady_states[4, :], 'm.', alpha=0.5, label='z (Parasite)' if c_y == c_y_values[0] else "")
 
 # 플롯 설정
-plt.xlabel('c_y (Interaction Coefficient)')
+plt.xlabel('c_y')
 plt.ylabel('State Variables')
-plt.title('Bifurcation Diagram for c_y')
+plt.title('Plot last 100value')
 plt.legend()
 plt.grid()
 plt.show()

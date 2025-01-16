@@ -12,8 +12,8 @@ def system_dynamic(t, vars, c_y):
     d_x = 0.1
     d_y = 1
     d_z = 0.09
-    Q_x = 1
-    Q_y = 1
+    Q_x = 0.3
+    Q_y = 0.4
     f_y = 0.01
     S = 0.0005
     g_x = 2
@@ -33,12 +33,12 @@ def system_dynamic(t, vars, c_y):
     return [dx_I, dx_U, dy_I, dy_U, dz]
 
 # c_y 값에 따른 분기 다이어그램 계산
-c_y_values = np.linspace(0.1, 1.0, 100)  # c_y 범위
+c_y_values = np.linspace(0, 1.0, 1000)  # c_y 범위
 results = []  # 안정 상태 결과 저장
 
 for c_y in c_y_values:
     # 초기값 및 시간 설정
-    initial_conditions = [0, 800, 0, 100, 1000]
+    initial_conditions = [0, 3000, 0, 100, 1000]
     t_span = (0, 150)
     time_points = np.linspace(t_span[0], t_span[1], 1000)
 
