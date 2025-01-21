@@ -24,11 +24,10 @@ def system_dynamic(t, vars, c_y):
 
     # 미분 방정식 정의
     dx_I = -((x_I + x_U) * x_I) / K - d_x * x_I + Q_x * S * x_U * z - f_y * x_I * (y_I + y_U)
-    dx_U = g_x * (r_x * x_I + x_U) - ((x_I + x_U) * x_U) / K - d_x * x_U - Q_x * S * x_U * z - f_y * x_U * (y_I + y_U)
-    dy_I = -d_y * y_I + Q_y * f_y * x_I * y_U - c_y*y_I*y_U + Q_y*c_y*y_I*y_U - c_y*y_I**2
-    dy_U = k_y * f_y * x_U * (r_p * y_I + y_U) + (r_e * k_y * (1 - Q_y) - (1 - r_p * k_y) * Q_y) * f_y * x_I * y_U - d_y * y_U -c_y*y_U**2+k_y*c_y*y_U**2+(r_p**2*k_y*Q_y+r_p*r_e*k_y*(1-Q_y))+c_y*y_I*y_U*(-Q_y+r_p*k_y*Q_y+r_e*k_y*(1-Q_y))+c_y*y_U*y_I*(-1+r_p*k_y)
-    dz = -Q_x * S * x_U * z + n_z * Q_y * f_y * x_I * (y_I + y_U) - d_z * z + (Q_y*c_y*y_I*y_U+Q_y*c_y*y_I**2)*n_z
-
+    dx_U = g_x * (r_x * x_I + x_U) - (x_U * x_U) / K - d_x * x_U - Q_x * S * x_U * z - f_y * x_U * (y_I + y_U)
+    dy_I = -d_y * y_I + Q_y * f_y * x_I * y_U - c_y*y_I*y_U + Q_y*c_y*y_I*y_U
+    dy_U = k_y * f_y * x_U * (r_p * y_I + y_U) + (r_e * k_y * (1 - Q_y) - (1 - r_p * k_y) * Q_y) * f_y * x_I * y_U - d_y * y_U + (r_p * r_e * k_y * (1 - Q_y) + r_p ** 2 * k_y * Q_y) * f_y * x_I * y_I - c_y * Q_y * y_I * y_U + c_y * k_y * r_p * y_I * y_U * Q_y + r_e * (1 - Q_y) * c_y
+    dz = -Q_x * S * x_U * z + n_z * Q_y * f_y * x_I * (y_I + y_U) - d_z * z + n_z * Q_y * c_y * y_I * y_U
     return [dx_I, dx_U, dy_I, dy_U, dz]
 
 # c_y 값에 따른 분기 다이어그램 계산
