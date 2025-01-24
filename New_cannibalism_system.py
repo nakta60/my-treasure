@@ -14,7 +14,7 @@ def system(t, vars):
     d_x = 0.1
     d_y = 1
     d_z = 0.09
-    Q_x = 0
+    Q_x = 0.1
     Q_y = 0.6
     f_y = 0.01
     S = 0.0005
@@ -37,7 +37,7 @@ def system(t, vars):
     c_y = np.clip(c_y, 0, 1)  # 동족포식 확률 제한
 
     # 동족포식 확률 기록
-    dynamic_c_y.append((t, c_y))
+    dynamic_c_y.append(c_y)
 
     # 값 제한 (오버플로우 방지)
     x_I = np.clip(x_I, 0, 1e6)
@@ -68,43 +68,41 @@ solution = solve_ivp(system, t_span, initial_conditions, method='BDF', t_eval=ti
 print("Integration successful:", solution.success)
 print("Message:", solution.message)
 
-# 동족포식 확률 시각화
-c_y_times, c_y_values = zip(*dynamic_c_y)
-plt.figure(figsize=(11,8))
-plt.plot(c_y_times, c_y_values, label='Cannibalism Probability (c_y)', color='red')
-plt.xlabel('Time')
-plt.ylabel('Cannibalism Probability')
-plt.title('Dynamic Cannibalism Probability Over Time')
-plt.legend()
-plt.grid()
-plt.show()
+# 서브플롯 생성
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(18, 10))
 
-# 결과 시각화
-fig, ax1 = plt.subplots(figsize=(18,10))
+# 첫 번째 서브플롯: 동족포식 확률
 
-# 왼쪽 y축: 피식자와 포식자
-ax1.plot(solution.t, solution.y[0], label='x_I (Infected Prey)', color='gray', linestyle='-')
-ax1.plot(solution.t, solution.y[1], label='x_U (Uninfected Prey)', color='cyan', linestyle='-')
-ax1.plot(solution.t, solution.y[2], label='y_I (Infected Predator)', color='black', linestyle='-')
-ax1.plot(solution.t, solution.y[3], label='y_U (Uninfected Predator)', color='green', linestyle='-')
+ax1.plot(dynamic_c_y, label='Cannibalism Probability (c_y)', color='red')
 ax1.set_xlabel('Time')
-ax1.set_ylabel('Host Population Size')
+ax1.set_ylabel('Cannibalism Probability')
+ax1.set_title('Dynamic Cannibalism Probability Over Time')
+ax1.legend()
 ax1.grid()
 
+# 두 번째 서브플롯: 인구 변화
+# 왼쪽 y축: 피식자와 포식자
+ax3 = ax2
+ax3.plot(solution.t, solution.y[0], label='x_I (Infected Prey)', color='gray', linestyle='-')
+ax3.plot(solution.t, solution.y[1], label='x_U (Uninfected Prey)', color='cyan', linestyle='-')
+ax3.plot(solution.t, solution.y[2], label='y_I (Infected Predator)', color='black', linestyle='-')
+ax3.plot(solution.t, solution.y[3], label='y_U (Uninfected Predator)', color='green', linestyle='-')
+ax3.set_xlabel('Time')
+ax3.set_ylabel('Host Population Size')
+ax3.grid()
+
 # 오른쪽 y축: 기생충
-ax2 = ax1.twinx()
-p2, = ax2.plot(solution.t, solution.y[4], label='Parasite', color='magenta', linestyle='-')
-ax2.set_ylabel('Parasite Population Size', color='magenta')
-ax2.tick_params(axis='y', labelcolor='magenta')
+ax4 = ax3.twinx()
+ax4.plot(solution.t, solution.y[4], label='z (Parasite)', color='magenta', linestyle='-')
+ax4.set_ylabel('Parasite Population Size', color='magenta')
+ax4.tick_params(axis='y', labelcolor='magenta')
 
 # 범례 설정
-lines1, labels1 = ax1.get_legend_handles_labels()
-lines2, labels2 = [p2], ['Parasite']
-ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=3)
+lines1, labels1 = ax3.get_legend_handles_labels()
+lines2, labels2 = ax4.get_legend_handles_labels()
+ax3.legend(lines1 + lines2, labels1 + labels2, loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3)
 
-# 제목
-fig.suptitle('Dynamic Cannibalism Probability per Time Step')
-
+# 제목 및 레이아웃
+ax3.set_title('Population Dynamics Over Time')
 plt.tight_layout()
-
 plt.show()
