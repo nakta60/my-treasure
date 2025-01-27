@@ -55,7 +55,7 @@ for i in range(f_U.shape[0]):
 
 
             # 미분 방정식 정의
-            dx_I = -((x_I + x_U)* x_I) / K - d_x * x_I + Q_x * S * x_U * z - f_I * x_I * (y_I + y_U)
+            dx_I = -(x_I * x_I) / K - d_x * x_I + Q_x * S * x_U * z - f_I * x_I * (y_I + y_U)
             dx_U = g_U * x_U + g_I * x_I - ((x_I + x_U) * x_U) / K - d_x * x_U - Q_x * S * x_U * z - f_U * x_U * (y_I + y_U)
             dy_I = -d_y * y_I + Q_y * f_I * x_I * y_U - c_y * y_I * y_U + c_y * Q_y * y_I * y_U
             dy_U = f_U * k_y * x_U * (y_U + r_p * y_I) + (r_p * Q_y + r_e * (1 - Q_y)) * f_I * k_y * x_I * y_U + k_y * f_I * x_I * y_I * (r_p**2 * Q_y + r_p * r_e * (1 - Q_y)) - d_y * y_U - c_y * Q_y * y_I * y_U + c_y * k_y * Q_y * r_p * y_I * y_U + r_e * (1 - Q_y) * c_y * k_y * y_I * y_U
